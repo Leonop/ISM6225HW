@@ -1,18 +1,5 @@
-﻿/*using System;
-
-namespace homework1
-{
-    class Program
-    {
-        static void Main(string[] args)
-        {
-            Console.WriteLine("Hello World!");
-        }
-    }
-}*/
-
-
-using System;
+﻿using System;
+using System.Collections.Generic;
 
 namespace homework1
 {
@@ -21,7 +8,7 @@ namespace homework1
         static void Main(string[] args)
         {
             int a = 1, b = 22;
-            printSelfDividingNumbers(a, b);
+            selfDividingNumbers(a, b);
 
             int n2 = 5;
             printSeries(n2);
@@ -42,11 +29,45 @@ namespace homework1
             solvePuzzle();
         }
 
-        public static void printSelfDividingNumbers(int x, int y)
+        public static void selfDividingNumbers(int x, int y)
         {
             try
             {
                 // Write your code here
+                IList<int> result = new List<int>();
+                for(int i = x; i<= y; i++)
+                {
+                    //less than 10
+                    if(Math.Abs(i)<10)
+                    {
+                        result.Add(i);
+                    }
+                    else if(i % 10==0) // last digit equals 0
+                    {
+                    continue;
+                    }
+                    else
+                    {
+                        int value = i;
+                        while(value>0)
+                        {
+                            if(value %10 ==0)
+                            {
+                                break;
+                            }
+                            else if(i%(value%10)!=0)
+                            {
+                                break;
+                            }
+                            value = value / 10;
+                        }
+                        if(value ==0)
+                        {
+                            result.Add(i);
+                        }
+                    }
+                }
+                result.foreach (Console.WriteLine) ;
             }
             catch
             {
@@ -58,7 +79,14 @@ namespace homework1
         {
             try
             {
+                int i, j = 0;
                 // Write your code here
+                for (i=1; i<=n; i++)
+                {
+                    string num = i.ToString();
+                    if (j <= n)
+                        Console.WriteLine(num);
+                }
             }
             catch
             {
@@ -70,7 +98,25 @@ namespace homework1
         {
             try
             {
+                int i, j, k = 0;
                 // Write your code here
+                for ( i=1; i<=n; i++)
+                {
+                    // Print space
+                    for (j = n; j>n+1-i; j--)
+                    {
+                        Console.Write(" ");
+                    };
+                    // Print *
+                    for(k = 1; k<=2*(n-i)+1; k++)
+                    {
+                        Console.Write("*");
+                    };
+                    k = 0;
+                    //Print next row
+                    Console.WriteLine();
+                }
+
             }
             catch
             {
