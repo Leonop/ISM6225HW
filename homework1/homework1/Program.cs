@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+/*using System.Range;*/
 
 namespace homework1
 {
@@ -35,58 +36,69 @@ namespace homework1
             {
                 // Write your code here
                 IList<int> result = new List<int>();
-                for(int i = x; i<= y; i++)
+                if (y < x)
+                    Console.Write(result);
+
+                for (int i = x; i<=y; i++)
                 {
-                    //less than 10
-                    if(Math.Abs(i)<10)
-                    {
+                    if (Program.isSelfDividingNumber(i))
                         result.Add(i);
-                    }
-                    else if(i % 10==0) // last digit equals 0
-                    {
-                    continue;
-                    }
-                    else
-                    {
-                        int value = i;
-                        while(value>0)
-                        {
-                            if(value %10 ==0)
-                            {
-                                break;
-                            }
-                            else if(i%(value%10)!=0)
-                            {
-                                break;
-                            }
-                            value = value / 10;
-                        }
-                        if(value ==0)
-                        {
-                            result.Add(i);
-                        }
-                    }
                 }
-                result.foreach (Console.WriteLine) ;
+                Console.Write("Question1" + "\n");
+                foreach (var item in result)
+                {
+                    Console.Write(item + ",");
+                }
+                Console.WriteLine("\n");
             }
             catch
             {
                 Console.WriteLine("Exception occured while computing printSelfDividingNumbers()");
             }
         }
+        
+        public static bool isSelfDividingNumber(int n)
+        {
+            bool flag = true;
+            int original = n;
+            int r = 0;
+            while (n > 0)
+            {
+                r = n % 10;
+                if (r != 0 && (original % r != 0))
+                {
+                    flag = false;
+                    return flag;
+                }
+                else if (r == 0)
+                    return false;
+                n = n / 10;
+            }
+            return flag;
+        }
 
         public static void printSeries(int n)
         {
             try
             {
+                Console.Write("Question2 \n");
                 int i, j = 0;
                 // Write your code here
+                // Use next for loop to generate the list of digits
+                IList<int> result_list = new List<int>();
                 for (i=1; i<=n; i++)
                 {
-                    string num = i.ToString();
-                    if (j <= n)
-                        Console.WriteLine(num);
+                    for (j=1; j<=i; j++)
+                    {
+                        result_list.Add(i);
+                    }
                 }
+                // Print the first 5 digits from the list
+                for (int k = 0; k<n; k++)
+                {
+                    Console.WriteLine(result_list[k]);
+                }
+                Console.WriteLine(); // start from a new line for the question3
             }
             catch
             {
@@ -98,6 +110,7 @@ namespace homework1
         {
             try
             {
+                Console.WriteLine("Question3");
                 int i, j, k = 0;
                 // Write your code here
                 for ( i=1; i<=n; i++)
@@ -128,15 +141,51 @@ namespace homework1
         {
             try
             {
-                // Write your code here
+                Console.WriteLine("Question4");
+                // Get the length of list
+                int LenOFList = Math.Max(J.Length, S.Length);
+                int count = 0; 
+                // Write your code here\
+                bool[] arr = new bool[LenOFList];
+                for (int i = 0; i < LenOFList; i++)
+                {
+                    foreach (var item in J)
+                    {
+                        if (item == S[i])
+                        {
+                            arr[i] = true;
+                        }
+                        else
+                        {
+                            arr[i] = false;
+                        }
+                    }
+                    if (arr[i] == true)
+                    {
+                        count = count + 1;
+                    }
+                }
+                foreach (var item in arr)
+                {
+                    Console.WriteLine(item);
+                }
+                Console.WriteLine("\n test"+S[0:5]);
             }
             catch
             {
                 Console.WriteLine("Exception occured while computing numJewelsInStones()");
             }
-
             return 0;
         }
+  /*      public static int[] arraySlice(int[] arr, int a, int b)
+        {
+            for (int i=0; i<Math.Max(a,b); i++)
+            {
+                arr[i]
+            }
+        }*/
+
+
 
         public static int[] getLargestCommonSubArray(int[] a, int[] b)
         {
