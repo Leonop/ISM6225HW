@@ -6,6 +6,9 @@ namespace homework1
 {
     class Program
     {
+        private static object r5;
+        private static object result_array;
+
         static void Main(string[] args)
         {
             int a = 1, b = 22;
@@ -25,7 +28,7 @@ namespace homework1
             int[] arr1 = new int[] { 1, 2, 5, 6, 7, 8, 9 };
             int[] arr2 = new int[] { 1, 2, 3, 4, 5 };
             int[] r5 = getLargestCommonSubArray(arr1, arr2);
-            Console.WriteLine(r5);
+            displayArray(r5);
 
             solvePuzzle();
         }
@@ -177,15 +180,47 @@ namespace homework1
 
         public static int[] getLargestCommonSubArray(int[] a, int[] b)
         {
+            int[] result_array = new int[10];
             try
             {
                 Console.WriteLine("Question 5: ");
-                int Len = Math.Min(a.Length, b.Length);
-                int[] window_len = new int[Len];
-                for (int i= Len; i>=1; i--)
+                int len = Math.Max(a.Length,b.Length);
+                //Declare the Jagged Array of four elements
+                int[][] intArray = new int[a.Length][];
+                /*List<List<int>> mylist = new List<List<int>>();*/
+                int[] array_nums = new int[a.Length];
+                List<int[]> arraylist = new List<int[]>();
+                
+                
+                //Initialize the elements
+                foreach(int item in a)
                 {
-                    
-
+                    int i=0,max_len=0,count = 0, k=0;
+                    if (b.Contains(item))
+                    {
+                        count++;
+                        array_nums[i]=item;
+                        i++;
+                    }
+                    else
+                    {
+                        if (max_len <= count) // Because the list is sorted, so the later comes will be retained.
+                        {
+                            max_len = count;
+                            arraylist.Add(array_nums);
+                            count = 0;
+                            array_nums = new int[a.Length];
+                            k++;
+                        }
+                       
+                    }
+                }
+                
+                int y = 0;
+                foreach(int item in arraylist[-1])
+                {
+                    result_array[y] = item;
+                    y++;
                 }
             }
             catch
@@ -193,8 +228,18 @@ namespace homework1
                 Console.WriteLine("Exception occured while computing getLargestCommonSubArray()");
             }
 
-            return null; // return the actual array
+         return result_array;// return the actual array
         }
+
+        public static void displayArray(int[] a)
+        {
+            foreach(int item in a)
+            {
+                Console.WriteLine(item);
+            }
+        }
+
+
 /*
         public static int find(int[] a, int[] b)
         {
@@ -283,26 +328,34 @@ namespace homework1
                                         if (num.Contains(C) && !num_fix.Contains(C)) //C is not duplicated with the other numbers and it is in the range of (0,9)
                                         {
                                             num_fix[4] = C;
-                                            N = U + C + 1;
-                                            if (num.Contains(N) && !num_fix.Contains(N))
+                                            carry[3] = 1;
+                                            N = U + C + carry[3]-10;
+                                            if(num.Contains(N) && !num_fix.Contains(N) && (U + C >= 10))
                                             {
                                                 num_fix[7] = N;
-                                                Console.WriteLine(U + " " + B + " " + E + " " + " " + R);
-                                                Console.WriteLine(C + " " + O + " " + " " + O + " " + L);
+                                                Console.WriteLine(" " + U + " " + B + " " + E + " " + " " + R);
+                                                Console.WriteLine("                +");
+                                                Console.WriteLine(" " + C + " " + O + " " + " " + O + " " + L);
+                                                Console.WriteLine("---------------------");
                                                 Console.WriteLine(U + " " + N + " " + C + " " + L + " " + E);
                                             }
                                         }
                                     }
                                     else
                                     {
-                                        C = B + O;
-                                        N = U + C - 10; //U+C must be above 10. So the U has to be 1 and N equals to U+C-10
-                                        if (num.Contains(C) && (!num_fix.Contains(C)) && num.Contains(N) && !num_fix.Contains(N))
+                                        C = B + O; //B+O<10 carry[2]=0
+                                        num_fix[4] = C;
+                                        carry[3] = 0;
+                                        N = U + C + carry[3] - 10;
+                                        //U+C must be above 10. So the U has to be 1 and N equals to U+C-10
+                                        if (num.Contains(C) && (!num_fix.Contains(C)) && num.Contains(N) && !num_fix.Contains(N)&&(U+C>=10))
                                         {
                                             num_fix[4] = C;
                                             num_fix[7] = N;
                                             Console.WriteLine(" " + U + " " + B + " " + E + " " + " " + R);
+                                            Console.WriteLine("                +");
                                             Console.WriteLine(" " + C + " " + O + " " + " " + O + " " + L);
+                                            Console.WriteLine("---------------------");
                                             Console.WriteLine(U + " " + N + " " + C + " " + L + " " + E);
                                         }
 
@@ -310,7 +363,7 @@ namespace homework1
 
                                 }
                             }
-                            else
+                            else  //L<E meansE+O=10+L with carry[0]=0 and carry[1]
                             {
                                 O = 10 + L - E;
                                 if ((!num_fix.Contains(L)) && (!num_fix.Contains(O))) // Add L and O to the list to make sure there are not duplicated numbers
@@ -328,27 +381,36 @@ namespace homework1
                                         if (num.Contains(C) && !num_fix.Contains(C)) //C is not duplicated with the other numbers and it is in the range of (0,9)
                                         {
                                             num_fix[4] = C;
-                                            N = U + C + 1;
-                                            if (num.Contains(N) && !num_fix.Contains(N))
+                                            carry[3] = 1;
+                                            N = U + C + carry[3] - 10;
+                                            if (num.Contains(N) && !num_fix.Contains(N)&&(U+C>=10))
                                             {
                                                 num_fix[7] = N;
-                                                Console.WriteLine(U + " " + B + " " + E + " " + " " + R);
-                                                Console.WriteLine(C + " " + O + " " + " " + O + " " + L);
+                                                Console.WriteLine(" " + U + " " + B + " " + E + " " + " " + R);
+                                                Console.WriteLine("                +");
+                                                Console.WriteLine(" " + C + " " + O + " " + " " + O + " " + L);
+                                                Console.WriteLine("---------------------");
                                                 Console.WriteLine(U + " " + N + " " + C + " " + L + " " + E);
                                             }
                                         }
                                     }
-                                    else
+                                    else //B+O<10;
                                     {
-                                        C = B + O;
-                                        N = U + C - 10; //U+C must be above 10. So the U has to be 1 and N equals to U+C-10
-                                        if (num.Contains(C) && (!num_fix.Contains(C)) && num.Contains(N) && !num_fix.Contains(N))
+                                        C = B + O;  // carry[2]=0
+                                        if (num.Contains(C) && !num_fix.Contains(C))
                                         {
                                             num_fix[4] = C;
-                                            num_fix[7] = N;
-                                            Console.WriteLine(" " + U + " " + B + " " + E + " " + " " + R);
-                                            Console.WriteLine(" " + C + " " + O + " " + " " + O + " " + L);
-                                            Console.WriteLine(U + " " + N + " " + C + " " + L + " " + E);
+                                            N = U + C - 10; //U+C must be above 10. So the U has to be 1 and N equals to U+C-10
+                                            if (num.Contains(N) && !num_fix.Contains(N) &&(U+C>=10) )
+                                            {
+                                                num_fix[7] = N;
+                                                Console.WriteLine(" " + U + " " + B + " " + E + " " + " " + R);
+                                                Console.WriteLine("           +");
+                                                Console.WriteLine(" " + C + " " + O + " " + " " + O + " " + L);
+                                                Console.WriteLine("---------------");
+                                                Console.WriteLine(U + " " + N + " " + C + " " + L + " " + E);
+                                                Console.WriteLine("=====================");
+                                            }
                                         }
 
                                     }
@@ -371,13 +433,17 @@ namespace homework1
                                     if (num.Contains(C)&&!num_fix.Contains(C)) //C is not duplicated with the other numbers and it is in the range of (0,9)
                                     {
                                         num_fix[4]=C;
-                                        N = U + C + 1;
+                                        carry[2] = 1;
+                                        N = U + C + carry[2]-10;
                                         if (num.Contains(N) && !num_fix.Contains(N))
                                         {
                                             num_fix[7]=N;
-                                            Console.WriteLine(U + " " + B + " " + E + " " + " " + R);
-                                            Console.WriteLine(C + " " + O + " " + " " + O + " " + L);
+                                            Console.WriteLine(" " + U + " " + B + " " + E + " " + " " + R);
+                                            Console.WriteLine("                +");
+                                            Console.WriteLine(" " + C + " " + O + " " + " " + O + " " + L);
+                                            Console.WriteLine("---------------------");
                                             Console.WriteLine(U + " " + N + " " + C + " " + L + " " + E);
+                                            Console.WriteLine();
                                         }
                                     }
                                 }
@@ -389,9 +455,12 @@ namespace homework1
                                     {
                                         num_fix[4]=C;
                                         num_fix[7]=N;
-                                        Console.WriteLine(" "+U + " " + B + " " + E + " " + " " + R);
-                                        Console.WriteLine(" "+C + " " + O + " " + " " + O + " " + L);
+                                        Console.WriteLine(" " + U + " " + B + " " + E + " " + " " + R);
+                                        Console.WriteLine("                +");
+                                        Console.WriteLine(" " + C + " " + O + " " + " " + O + " " + L);
+                                        Console.WriteLine("---------------------");
                                         Console.WriteLine(U + " " + N + " " + C + " " + L + " " + E);
+                                        Console.WriteLine();
                                     }
                                     
                                 }
@@ -425,9 +494,12 @@ namespace homework1
                                             if (num.Contains(N) && !num_fix.Contains(N))
                                             {
                                                 num_fix[7]=N;
-                                                Console.WriteLine(U + " " + B + " " + E + " " + " " + R);
-                                                Console.WriteLine(C + " " + O + " " + " " + O + " " + L);
+                                                Console.WriteLine(" " + U + " " + B + " " + E + " " + " " + R);
+                                                Console.WriteLine("                +");
+                                                Console.WriteLine(" " + C + " " + O + " " + " " + O + " " + L);
+                                                Console.WriteLine("---------------------");
                                                 Console.WriteLine(U + " " + N + " " + C + " " + L + " " + E);
+                                                Console.WriteLine();
                                             }
                                         }
 
@@ -436,13 +508,16 @@ namespace homework1
                                     {
                                         C = B + O;
                                         N = U + C - 10; //U+C must be above 10. So the U has to be 1 and N equals to U+C-10
-                                        if (num.Contains(C) && (!num_fix.Contains(C)) && num.Contains(N) && !num_fix.Contains(N))
+                                        if (num.Contains(C) && (!num_fix.Contains(C)) && num.Contains(N) && !num_fix.Contains(N)&&(U+C>=10))
                                         {
                                             num_fix[4] = C;
                                             num_fix[7] = N;
-                                            Console.WriteLine(U + " " + B + " " + E + " " + " " + R);
-                                            Console.WriteLine(C + " " + O + " " + " " + O + " " + L);
+                                            Console.WriteLine(" " + U + " " + B + " " + E + " " + " " + R);
+                                            Console.WriteLine("                +");
+                                            Console.WriteLine(" " + C + " " + O + " " + " " + O + " " + L);
+                                            Console.WriteLine("---------------------");
                                             Console.WriteLine(U + " " + N + " " + C + " " + L + " " + E);
+                                            Console.WriteLine();
                                         }
                                     }
                                 }
@@ -472,12 +547,15 @@ namespace homework1
                                         {
                                             num_fix[4] = C;
                                             N = U + C + carry[2]-10;
-                                            if (num.Contains(N) && !num_fix.Contains(N))
+                                            if (num.Contains(N) && !num_fix.Contains(N)&&(U+C>=10))
                                             {
                                                 num_fix[7] = N;
-                                                Console.WriteLine(U + " " + B + " " + E + " " + " " + R);
-                                                Console.WriteLine(C + " " + O + " " + " " + O + " " + L);
+                                                Console.WriteLine(" "+U + " " + B + " " + E + " " + " " + R);
+                                                Console.WriteLine("                +");
+                                                Console.WriteLine(" "+C + " " + O + " " + " " + O + " " + L);
+                                                Console.WriteLine("---------------------");
                                                 Console.WriteLine(U + " " + N + " " + C + " " + L + " " + E);
+                                                Console.WriteLine();
                                             }
                                         }
 
@@ -486,12 +564,14 @@ namespace homework1
                                     {
                                         C = B + O;
                                         N = U + C - 10; //U+C must be above 10. So the U has to be 1 and N equals to U+C-10
-                                        if (num.Contains(C) && (!num_fix.Contains(C)) && num.Contains(N) && !num_fix.Contains(N))
+                                        if (num.Contains(C) && (!num_fix.Contains(C)) && num.Contains(N) && !num_fix.Contains(N)&&(U+C>=10))
                                         {
                                             num_fix[4] = C;
                                             num_fix[7] = N;
-                                            Console.WriteLine(U + " " + B + " " + E + " " + " " + R);
-                                            Console.WriteLine(C + " " + O + " " + " " + O + " " + L);
+                                            Console.WriteLine(" " + U + " " + B + " " + E + " " + " " + R);
+                                            Console.WriteLine("                +");
+                                            Console.WriteLine(" " + C + " " + O + " " + " " + O + " " + L);
+                                            Console.WriteLine("---------------------");
                                             Console.WriteLine(U + " " + N + " " + C + " " + L + " " + E);
                                         }
 
