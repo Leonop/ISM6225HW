@@ -6,8 +6,8 @@ namespace homework1
 {
     class Program
     {
-        private static object r5;
-        private static object result_array;
+        /*private static object r5;
+        private static object result_array;*/
 
         static void Main(string[] args)
         {
@@ -26,7 +26,7 @@ namespace homework1
             Console.WriteLine(r4);
 
             int[] arr1 = new int[] { 1, 2, 5, 6, 7, 8, 9 };
-            int[] arr2 = new int[] { 1, 2, 3, 4, 5 };
+            int[] arr2 = new int[] { 1, 2, 3, 4, 5 ,8, 9 };
             int[] r5 = getLargestCommonSubArray(arr1, arr2);
             displayArray(r5);
 
@@ -146,7 +146,7 @@ namespace homework1
             {
                 Console.WriteLine("Question4");
                 // Get the length of list
-                int LenOFList = Math.Max(J.Length, S.Length);
+                int LenOFList = S.Length;
                 int count = 0; 
                 // Write your code here\
                 bool[] arr = new bool[LenOFList];
@@ -163,12 +163,9 @@ namespace homework1
                             arr[i] = false;
                         }
                     }
-                   /* foreach (var item in arr)
-                    {
-                        Console.WriteLine(item);
-                    }*/
                 }
-                Console.WriteLine(count);
+
+                return count;
             }
             catch
             {
@@ -180,9 +177,11 @@ namespace homework1
 
         public static int[] getLargestCommonSubArray(int[] a, int[] b)
         {
-            int[] result_array = new int[10];
+            // Define a result array
+            int[] result_array = new int[a.Length];
             try
             {
+                Console.WriteLine();
                 Console.WriteLine("Question 5: ");
                 int len = Math.Max(a.Length,b.Length);
                 //Declare the Jagged Array of four elements
@@ -190,44 +189,58 @@ namespace homework1
                 /*List<List<int>> mylist = new List<List<int>>();*/
                 int[] array_nums = new int[a.Length];
                 List<int[]> arraylist = new List<int[]>();
+                //Create a dictionary to store the arrays and length of arrays
+                Dictionary<int, int[]> dict_array = new Dictionary<int, int[]>();
+                //Define a list to store the variables of num
+                List<int> mylist = new List<int>();
+                // Define a maxlist to compare with my list
+                List<int> maxlist = new List<int>();
                 
-                
+
                 //Initialize the elements
-                foreach(int item in a)
+                int j = 0;
+                for(int i=0; i <= Math.Min(a.Length, b.Length); i++)
                 {
-                    int i=0,max_len=0,count = 0, k=0;
-                    if (b.Contains(item))
+                    if (a[i]==b[j])
                     {
-                        count++;
-                        array_nums[i]=item;
-                        i++;
-                    }
+                        mylist.Add(a[i]);
+                        j++;
+                        /* Console.WriteLine(maxlist.Count+" test!!!");*/
+                        if (mylist.Count >= maxlist.Count)
+                        {
+                            maxlist = mylist;
+                        }
+                        if ((j >= b.Length) || (i >= a.Length))
+                        {
+                            break;
+                        }
+                    }   
                     else
                     {
-                        if (max_len <= count) // Because the list is sorted, so the later comes will be retained.
-                        {
-                            max_len = count;
-                            arraylist.Add(array_nums);
-                            count = 0;
-                            array_nums = new int[a.Length];
-                            k++;
+                        if (a[i] > b[j])
+                        {                            
+                            i--;
+                            j++;
+                            /*maxlist = mylist;*/
+                            mylist = new List<int>();
+                            /*Console.WriteLine("Test3");*/
                         }
-                       
+                        else
+                        {
+                                /*maxlist = mylist;*/
+                                mylist = new List<int>();
+                                /*Console.WriteLine("Test3");*/
+                            
+                        }
+                        
                     }
-                }
-                
-                int y = 0;
-                foreach(int item in arraylist[-1])
-                {
-                    result_array[y] = item;
-                    y++;
-                }
+                } 
+                result_array = maxlist.ToArray();
             }
             catch
             {
                 Console.WriteLine("Exception occured while computing getLargestCommonSubArray()");
             }
-
          return result_array;// return the actual array
         }
 
@@ -238,55 +251,8 @@ namespace homework1
                 Console.WriteLine(item);
             }
         }
+        
 
-
-/*
-        public static int find(int[] a, int[] b)
-        {
-            int [,] array2D = new int[a.Length, b.Length];
-            IList<int> result_list = new List<int>();
-            int max_len = 0;
-            for (int i = 1; i <= a.Length; i++)
-            {
-                for(int j=1; j<=b.Length; j++)
-                {
-                    if (a[i] == b[j])
-                    {
-                        array2D[i, j] = 1;
-
-                    }
-                    else
-                    {
-                        array2D[i, j] = 0;
-                    }
-                }
-            }
-            
-            for (int i = 1; i<=a.Length; i++)
-            {
-                for (int j =1; j<=b.Length; j++)
-                {
-                    if (a[i] == b[j])
-                    {
-                        for(int k=1; k <= a.Length - i; k++)
-                        {
-                            if (a[i + k] == b[j + k])
-                            {
-                                count++;
-                                max_len = count;
-                                result_list.Add(a[i]);
-                            }
-                        } 
-                        
-                        
-                    }
-                    else
-                    {
-
-                    }
-                }
-            }
-        }*/
 
 
         public static void solvePuzzle()
@@ -294,14 +260,14 @@ namespace homework1
             try
             {
                 Console.WriteLine("Question6:");
-                int U=1, O, C, L, N;
+                int U, O, C, L, N;
                 int[] carry = new int[4];
                 int[] num = new int[10] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
                 int[] num_fix = new int[8]; //Create a list to store the determined variable, because each of them are not equal.
- 
-                foreach(int E in num)
+             
+              /*  foreach(int E in num)
                 {
-                    num_fix[0]=U; // follow the pattern of UBERCOLN
+                    num_fix[0]; // follow the pattern of UBERCOLN
                     num_fix[2]=E;
                     foreach(int R in num.Except(num_fix))
                     {
@@ -330,7 +296,7 @@ namespace homework1
                                             num_fix[4] = C;
                                             carry[3] = 1;
                                             N = U + C + carry[3]-10;
-                                            if(num.Contains(N) && !num_fix.Contains(N) && (U + C >= 10))
+                                            if(num.Contains(N) && !num_fix.Contains(N))
                                             {
                                                 num_fix[7] = N;
                                                 Console.WriteLine(" " + U + " " + B + " " + E + " " + " " + R);
@@ -348,7 +314,7 @@ namespace homework1
                                         carry[3] = 0;
                                         N = U + C + carry[3] - 10;
                                         //U+C must be above 10. So the U has to be 1 and N equals to U+C-10
-                                        if (num.Contains(C) && (!num_fix.Contains(C)) && num.Contains(N) && !num_fix.Contains(N)&&(U+C>=10))
+                                        if (num.Contains(C) && (!num_fix.Contains(C)) && num.Contains(N) && !num_fix.Contains(N))
                                         {
                                             num_fix[4] = C;
                                             num_fix[7] = N;
@@ -383,7 +349,7 @@ namespace homework1
                                             num_fix[4] = C;
                                             carry[3] = 1;
                                             N = U + C + carry[3] - 10;
-                                            if (num.Contains(N) && !num_fix.Contains(N)&&(U+C>=10))
+                                            if (num.Contains(N) && !num_fix.Contains(N))
                                             {
                                                 num_fix[7] = N;
                                                 Console.WriteLine(" " + U + " " + B + " " + E + " " + " " + R);
@@ -401,7 +367,7 @@ namespace homework1
                                         {
                                             num_fix[4] = C;
                                             N = U + C - 10; //U+C must be above 10. So the U has to be 1 and N equals to U+C-10
-                                            if (num.Contains(N) && !num_fix.Contains(N) &&(U+C>=10) )
+                                            if (num.Contains(N) && !num_fix.Contains(N) ) 
                                             {
                                                 num_fix[7] = N;
                                                 Console.WriteLine(" " + U + " " + B + " " + E + " " + " " + R);
@@ -508,7 +474,7 @@ namespace homework1
                                     {
                                         C = B + O;
                                         N = U + C - 10; //U+C must be above 10. So the U has to be 1 and N equals to U+C-10
-                                        if (num.Contains(C) && (!num_fix.Contains(C)) && num.Contains(N) && !num_fix.Contains(N)&&(U+C>=10))
+                                        if (num.Contains(C) && (!num_fix.Contains(C)) && num.Contains(N) && !num_fix.Contains(N))
                                         {
                                             num_fix[4] = C;
                                             num_fix[7] = N;
@@ -582,7 +548,7 @@ namespace homework1
                             }
                         }
                     }
-                }
+                }*/
 
                
             }
