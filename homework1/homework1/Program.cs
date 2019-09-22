@@ -279,24 +279,26 @@ namespace homework1
                 string[] letters = new string[8] { "U", "B", "E", "R", "C", "O", "N", "L" };
                 int[] num = new int[10] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
                 int[] num_fix = new int[8]; //Create a list to store the determined variable, because each of them are not equal.
+                Dictionary<String[], int[]> result = new Dictionary<String[], int[]>();
 
                 int count = 0;
                 for (int uber = 123; uber<=9876; uber++)
                 {
                     uber_list = uber.ToString("0000").Select(c => c - 48).ToList();
-/*                    count++;*/
+
                     // Convert list to array
                     uber_array = uber_list.ToArray();
                     // Create a character common list to remove 
                     IList<int> comm_list = new List<int>();
-                    comm_list.Add(uber_array[0]);
+                    /*comm_list.Add(uber_array[0]);
                     comm_list.Add(uber_array[1]);
                     comm_list.Add(uber_array[2]);
-                    comm_list.Add(uber_array[3]);
+                    comm_list.Add(uber_array[3]);*/
+                    comm_list = uber_list;
 
                     //Check if the common list has duplicate number
-                    bool isUnique = comm_list.Distinct().Count() == comm_list.Count();
-                    if (isUnique == false)
+                    bool isUnique = uber_list.Distinct().Count() == uber_list.Count();
+                    if (isUnique == false||uber_list[0]>1)
                     {
                         continue;
                     }
@@ -304,40 +306,82 @@ namespace homework1
                     for (int cool = 112; cool<=9887; cool++)
                     {
                         cool_list = cool.ToString("0000").Select(c => c - 48).ToList();
-                        //Convert list to array
-
-                        //Create a dictionary to store the arrays and length of arrays
-
-                        var dict = new Dictionary<string, int>()
+                        
+                        if (cool_list[1] != cool_list[2])
                         {
-                            {"U", uber_array[0] },
-                            {"B", uber_array[1] },
-                            {"E", uber_array[2] },
-                            {"R", uber_array[3] },
-                            {"C", cool_array[0] },
-                            {"O", cool_array[1] },
-                            {"L", cool_array[3] }
-                        };
-                        comm_list.Add(cool_array[0]);
-                        comm_list.Add(cool_array[1]);
-                        comm_list.Add(cool_array[2]);
-                        isUnique = comm_list.Distinct().Count() == comm_list.Count();
+                            continue;
+                        }
+                        /*bool flag = cool_list.Distinct().Count() == cool_list.Count() - 1;
+                        if (flag == false)
+                        {
+                            continue;
+                        }*/
+                        /*Console.WriteLine("cool is "+cool+" , uber is " +uber+ "Count is" + count);*/
+
+
+                        /*if((uber_list.Contains(cool_list[0]))|| (uber_list.Contains(cool_list[1]))|| (uber_list.Contains(cool_list[3])))
+                        {
+                            continue;
+                        }*/
+
+                        //Convert list to array
+                        //Create a dictionary to store the arrays and length of arrays
+                       /* var dict = new Dictionary<string, int>()
+                        {
+                            {"U", uber_list[0] },
+                            {"B", uber_list[1] },
+                            {"E", uber_list[2] },
+                            {"R", uber_list[3] },
+                            {"C", cool_list[0] },
+                            {"O", cool_list[1] },
+                            {"L", cool_list[3] }
+                        };*/
+                        comm_list.Add(cool_list[0]);
+                        comm_list.Add(cool_list[1]);
+                        comm_list.Add(cool_list[3]);
+
+                        /*isUnique = comm_list.Distinct().Count() == comm_list.Count();
                         // if the common list is not unique, then break
                         if (isUnique == false)
                         {
                             continue;
-                        }
+                        }*/
 
                         int uncle = cool + uber;
-
+                        /*                        Console.WriteLine("count is "+count+" "+uncle + " vs "+dict["U"]+"?"+dict["C"]+dict["L"]+dict["E"]);
+                        */
                         uncle_list = uncle.ToString("00000").Select(c => c - 48).ToList();
-                        uncle_array = uncle_list.ToArray();
+                        // if there is any duplicate number is the comm_list, go to next loop
+                        comm_list.Add(uncle_list[1]);
 
-                        if ((uncle_array[0] == dict["U"]) && (uncle_array[2] == dict["C"]) && (uncle_array[3] == dict["L"]) && (uncle_array[4] == dict["E"]) && (isUnique == true))
+                        if (comm_list.Distinct().Count() != comm_list.Count())
+                        {
+                            continue; 
+                        }
+                        Console.WriteLine("U " + uncle_list[0] + ",N " + uncle_list[1] + ",C " + uncle_list[2] + ",L " + uncle_list[3] + ",E " + uncle_list[4]);
+                        Console.WriteLine("U " + uber_list[0] + ", B " + uber_list[1] + ", E " + uber_list[2] + ", R " + uber_list[3] + ", C" + cool_list[0] + ", O" + cool_list[1] + ", L" + cool_list[3] + ", N" + uncle_list[1]);
+                        Console.WriteLine(count);
+
+                        /*uncle_array = uncle_list.ToArray();*/
+                        // if N is duplicated with the other numbers, go to next loop
+                        /*  if (comm_list.Contains(uncle_list[1]))
+                          {
+                              continue;
+                          }*/
+
+                        /*if ((uncle_array[0] == dict["U"]) && (uncle_array[2] == dict["C"]) && (uncle_array[3] == dict["L"]) && (uncle_array[4] == dict["E"]) && (isUnique == true))
+                        {
+                            Console.WriteLine("UBER: " + uber + ", COOL: " + cool + ", UNCLE: " + uncle);
+                        }*/
+                        /*                        Console.WriteLine("U " + uber_list[0] + ", B " + uber_list[1] + ", E " + uber_list[2] + ", R " + uber_list[3] + ", C" + cool_list[0] + ", O" + cool_list[0] + ", L" + cool_list[3]);
+                        */
+                        if ((uncle_array[0] == uber_list[0]) && (uncle_array[2] == cool_list[0]) && (uncle_array[3] == cool_list[3]) && (uncle_array[4] == uber_list[2]))
                         {
                             Console.WriteLine("UBER: " + uber + ", COOL: " + cool + ", UNCLE: " + uncle);
                         }
-                        dict = new Dictionary<string, int>();
+                        /*dict = new Dictionary<string, int>();*/
+                        comm_list = new List<int>();
+                        count++;
 
                     }
 
@@ -351,6 +395,8 @@ namespace homework1
             }
         }
 
-
     }
 }
+
+
+
