@@ -26,7 +26,7 @@ namespace homework1
             Console.WriteLine(r4);
 
             int[] arr1 = new int[] { 1, 2, 5, 6, 7, 8, 9 };
-            int[] arr2 = new int[] { 1, 2, 3, 4, 5  };
+            int[] arr2 = new int[] { 1, 2, 3, 4, 5 ,8, 9 };
             int[] r5 = getLargestCommonSubArray(arr1, arr2);
             displayArray(r5);
 
@@ -257,77 +257,202 @@ namespace homework1
 
         public static void solvePuzzle()
         {
-            // Convert integer to string
-            /*string uber_string = uber.ToString();*/
-            /*Console.WriteLine(uber_string);*/
-            int[] uber_array = new int[4];
-            int[] cool_array = new int[4];
-            int[] uncle_array = new int[5];
-
-            //Define a list to store uber and cool
-            IList<int> uber_list = new List<int>();
-            IList<int> cool_list = new List<int>();
-            IList<int> uncle_list = new List<int>();
-
-
             try
             {
                 Console.WriteLine();
                 Console.WriteLine("Question6:");
-                /*U, O, C, L, N;*/
-/*                int[] carry = new int[4];
-                string[] letters = new string[8] { "U", "B", "E", "R", "C", "O", "N", "L" };
+                int U, O, C, L, N;
+                int[] carry = new int[4];
                 int[] num = new int[10] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
-                int[] num_fix = new int[8]; //Create a list to store the determined variable, because each of them are not equal.*/
-                Dictionary<String[], int[]> result = new Dictionary<String[], int[]>();
-
-                int count = 0;
-                for (int uber = 123; uber <= 9876; uber++)
+                int[] num_fix = new int[8]; //Create a list to store the determined variable, because each of them are not equal.
+             
+              /*  foreach(int E in num)
                 {
                     uber_list = uber.ToString("0000").Select(c => c - 48).ToList();
 
+                                foreach (int B in num.Except(num_fix)) // In the for loop of B from 1 to 9 but not same as the fixed number in num_fix
+                                {
+                                    num_fix[1] = B;
+                                    if ((B + O >= 10) && num.Contains(O)) // B+O is above 10 and O in (0,9)
+                                    {
+                                        C = B + O - 10;
+                                        if (num.Contains(C) && !num_fix.Contains(C)) //C is not duplicated with the other numbers and it is in the range of (0,9)
+                                        {
+                                            num_fix[4] = C;
+                                            carry[3] = 1;
+                                            N = U + C + carry[3]-10;
+                                            if(num.Contains(N) && !num_fix.Contains(N))
+                                            {
+                                                num_fix[7] = N;
+                                                Console.WriteLine(" " + U + " " + B + " " + E + " " + " " + R);
+                                                Console.WriteLine("                +");
+                                                Console.WriteLine(" " + C + " " + O + " " + " " + O + " " + L);
+                                                Console.WriteLine("---------------------");
+                                                Console.WriteLine(U + " " + N + " " + C + " " + L + " " + E);
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        C = B + O; //B+O<10 carry[2]=0
+                                        num_fix[4] = C;
+                                        carry[3] = 0;
+                                        N = U + C + carry[3] - 10;
+                                        //U+C must be above 10. So the U has to be 1 and N equals to U+C-10
+                                        if (num.Contains(C) && (!num_fix.Contains(C)) && num.Contains(N) && !num_fix.Contains(N))
+                                        {
+                                            num_fix[4] = C;
+                                            num_fix[7] = N;
+                                            Console.WriteLine(" " + U + " " + B + " " + E + " " + " " + R);
+                                            Console.WriteLine("                +");
+                                            Console.WriteLine(" " + C + " " + O + " " + " " + O + " " + L);
+                                            Console.WriteLine("---------------------");
+                                            Console.WriteLine(U + " " + N + " " + C + " " + L + " " + E);
+                                        }
 
-                    // Create a character common list to remove 
-                    IList<int> comm_list = new List<int>();
-                   
-                    comm_list = uber_list;
-/*                    Console.WriteLine(comm_list[0] +""+ comm_list[1] +""+ comm_list[2] +""+ comm_list[3] +" vs "+uber);
-*/                    //Check if the common list has duplicate number
-                    bool isUnique = uber_list.Distinct().Count() == uber_list.Count();
-                    if (isUnique == false || uber_list[0] > 1)
-                    {
-                        continue;
-                    }
+                                    }
 
-                    for (int cool = 112; cool <= 9887; cool++)
-                    {
-                        cool_list = cool.ToString("0000").Select(c => c - 48).ToList();
+                                }
+                            }
+                            else  //L<E meansE+O=10+L with carry[0]=0 and carry[1]
+                            {
+                                O = 10 + L - E;
+                                if ((!num_fix.Contains(L)) && (!num_fix.Contains(O))) // Add L and O to the list to make sure there are not duplicated numbers
+                                {
+                                    num_fix[6] = L;
+                                    num_fix[5] = O;
+                                }
 
-                        if (cool_list[1] != cool_list[2])
-                        {
-                            continue;
+                                foreach (int B in num.Except(num_fix)) // In the for loop of B from 1 to 9 but not same as the fixed number in num_fix
+                                {
+                                    num_fix[1] = B;
+                                    if ((B + O >= 10) && num.Contains(O)) // B+O is above 10 and O in (0,9)
+                                    {
+                                        C = B + O - 10;
+                                        if (num.Contains(C) && !num_fix.Contains(C)) //C is not duplicated with the other numbers and it is in the range of (0,9)
+                                        {
+                                            num_fix[4] = C;
+                                            carry[3] = 1;
+                                            N = U + C + carry[3] - 10;
+                                            if (num.Contains(N) && !num_fix.Contains(N))
+                                            {
+                                                num_fix[7] = N;
+                                                Console.WriteLine(" " + U + " " + B + " " + E + " " + " " + R);
+                                                Console.WriteLine("                +");
+                                                Console.WriteLine(" " + C + " " + O + " " + " " + O + " " + L);
+                                                Console.WriteLine("---------------------");
+                                                Console.WriteLine(U + " " + N + " " + C + " " + L + " " + E);
+                                            }
+                                        }
+                                    }
+                                    else //B+O<10;
+                                    {
+                                        C = B + O;  // carry[2]=0
+                                        if (num.Contains(C) && !num_fix.Contains(C))
+                                        {
+                                            num_fix[4] = C;
+                                            N = U + C - 10; //U+C must be above 10. So the U has to be 1 and N equals to U+C-10
+                                            if (num.Contains(N) && !num_fix.Contains(N) ) 
+                                            {
+                                                num_fix[7] = N;
+                                                Console.WriteLine(" " + U + " " + B + " " + E + " " + " " + R);
+                                                Console.WriteLine("           +");
+                                                Console.WriteLine(" " + C + " " + O + " " + " " + O + " " + L);
+                                                Console.WriteLine("---------------");
+                                                Console.WriteLine(U + " " + N + " " + C + " " + L + " " + E);
+                                                Console.WriteLine("=====================");
+                                            }
+                                        }
+
+                                    }
+
+                                }
+                            }
+                            
+                            if ((!num_fix.Contains(L))&&(!num_fix.Contains(O))) // Add L and O to the list to make sure there are not duplicated numbers
+                            {
+                                num_fix[6]=L; 
+                                num_fix[5]=O;
+                            }
+                            
+                            foreach(int B in num.Except(num_fix)) // In the for loop of B from 1 to 9 but not same as the fixed number in num_fix
+                            {
+                                num_fix[1] = B;
+                                if ((B + O >= 10)&&num.Contains(O)) // B+O is above 10 and O in (0,9)
+                                {
+                                    C = B + O - 10;
+                                    if (num.Contains(C)&&!num_fix.Contains(C)) //C is not duplicated with the other numbers and it is in the range of (0,9)
+                                    {
+                                        num_fix[4]=C;
+                                        carry[2] = 1;
+                                        N = U + C + carry[2]-10;
+                                        if (num.Contains(N) && !num_fix.Contains(N))
+                                        {
+                                            num_fix[7]=N;
+                                            Console.WriteLine(" " + U + " " + B + " " + E + " " + " " + R);
+                                            Console.WriteLine("                +");
+                                            Console.WriteLine(" " + C + " " + O + " " + " " + O + " " + L);
+                                            Console.WriteLine("---------------------");
+                                            Console.WriteLine(U + " " + N + " " + C + " " + L + " " + E);
+                                            Console.WriteLine();
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    C = B + O;
+                                    N = U + C-10; //U+C must be above 10. So the U has to be 1 and N equals to U+C-10
+                                    if(num.Contains(C) && (!num_fix.Contains(C))&& num.Contains(N) && !num_fix.Contains(N))
+                                    {
+                                        num_fix[4]=C;
+                                        num_fix[7]=N;
+                                        Console.WriteLine(" " + U + " " + B + " " + E + " " + " " + R);
+                                        Console.WriteLine("                +");
+                                        Console.WriteLine(" " + C + " " + O + " " + " " + O + " " + L);
+                                        Console.WriteLine("---------------------");
+                                        Console.WriteLine(U + " " + N + " " + C + " " + L + " " + E);
+                                        Console.WriteLine();
+                                    }
+                                    
+                                }
+                                
+                            }
                         }
-                       
-                        // Add C, L, N to the common list
-                        comm_list.Add(cool_list[0]);
-                        comm_list.Add(cool_list[1]);
-                        comm_list.Add(cool_list[3]);
-
-                        // Get the result from for loops
-                        int uncle = cool + uber;
-                        uncle_list = uncle.ToString("00000").Select(c => c - 48).ToList();
-                        // if there is any duplicate number is the comm_list, go to next loop
-                        /*comm_list.Add(uncle_list[1]);*/
-                        /*Console.WriteLine("U " + uncle_list[0] + ",N " + uncle_list[1] + ",C " + uncle_list[2] + ",L " + uncle_list[3] + ",E " + uncle_list[4]);
-                        Console.WriteLine("U " + uber_list[0] + ", B " + uber_list[1] + ", E " + uber_list[2] + ", R " + uber_list[3] + ", C" + cool_list[0] + ", O" + cool_list[1] + ", L" + cool_list[3] + ", N" + uncle_list[1]);
-                        Console.WriteLine(count);*/
-                        if (comm_list.Distinct().Count() != comm_list.Count())
+                        else
                         {
-                            continue;
-                        }
-                        /*Console.WriteLine("U " + uncle_list[0] + ",N " + uncle_list[1] + ",C " + uncle_list[2] + ",L " + uncle_list[3] + ",E " + uncle_list[4]);
-                        Console.WriteLine("U " + uber_list[0] + ", B " + uber_list[1] + ", E " + uber_list[2] + ", R " + uber_list[3] + ", C" + cool_list[0] + ", O" + cool_list[1] + ", L" + cool_list[3] + ", N" + uncle_list[1]);
-                        Console.WriteLine(count);*/
+                            // E<R
+                            L = 10 + E - R; // L+R>10 then carry[0]=1
+                            carry[0] = 1;
+                            if (E < L)
+                            {
+                                O = L - carry[0] - E; // E+O+1=L carry[1]==0
+                                if (num.Contains(L) && !num_fix.Contains(L) && num.Contains(O) && !num_fix.Contains(L))
+                                {
+                                    num_fix[6]=L;
+                                    num_fix[5]=O;
+                                }
+                                foreach(int B in num.Except(num_fix))
+                                {
+                                    num_fix[1]=B;
+                                    if ((B + O > 10)&& num.Contains(O))
+                                    {
+                                        C = B + O - 10;
+                                        carry[2] = 1;
+                                        if (num.Contains(C) && !num_fix.Contains(C)) //C is not duplicated with the other numbers and it is in the range of (0,9)
+                                        {
+                                            num_fix[4]=C;
+                                            N = U + C + carry[2]-10;
+                                            if (num.Contains(N) && !num_fix.Contains(N))
+                                            {
+                                                num_fix[7]=N;
+                                                Console.WriteLine(" " + U + " " + B + " " + E + " " + " " + R);
+                                                Console.WriteLine("                +");
+                                                Console.WriteLine(" " + C + " " + O + " " + " " + O + " " + L);
+                                                Console.WriteLine("---------------------");
+                                                Console.WriteLine(U + " " + N + " " + C + " " + L + " " + E);
+                                                Console.WriteLine();
+                                            }
+                                        }
 
                         /*uncle_array = uncle_list.ToArray();*/
                         // if N is duplicated with the other numbers, go to next loop
@@ -350,15 +475,23 @@ namespace homework1
                         comm_list = new List<int>();
                         count++;
 
+                                }
 
+                            }
+                        }
                     }
-                }
-            }
+                }*/
 
+               
+            }
             catch
             {
                 Console.WriteLine("Exception occured while computing solvePuzzle()");
             }
         }
+
     }
 }
+
+
+
